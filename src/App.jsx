@@ -170,6 +170,28 @@ const App = () => {
     }
   }
 
+  const handleLike = async (blog) => {
+    const updatedBlog = {
+      id: blog.id,
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes + 1
+    }
+    try {
+      const returnedBlog = await blogService.update(blog.id, updatedBlog)
+      blog.likes = returnedBlog.likes
+      setBlogs(blogs.map(item => {
+        if (returnedBlog.id === item.id) {
+          item.likes = returnedBlog.likes
+        }
+        return item
+      }))
+    } catch (exception) {
+      console.log(exception)
+    }
+  }
+
   return (
     <div>
       <h2>blogs</h2>
@@ -180,7 +202,7 @@ const App = () => {
         <BlogForm createBlog={addBlog} />
       </Togglable>
       {sortedBlogs().map(blog =>
-        <Blog key={blog.id} blog={blog} removeBlog={handleRemoveBlog} showRemove={blog.user && blog.user.username === user.username}/>
+        <Blog key={blog.id} blog={blog} removeBlog={handleRemoveBlog} showRemove={blog.user && blog.user.username === user.username} handleLike={handleLike} />
       )}
     </div>
   )
