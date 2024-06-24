@@ -63,6 +63,30 @@ test('like clicked twice', async () => {
 
 })
 
+test('removable', async () => {
+  const blog = {
+    title: 'This blog should render',
+    author: 'me',
+    url: 'me.com/blog',
+    likes: 20
+  }
+
+  const mockHandlerHandleLike = vi.fn()
+  const mockHandlerHandleRemove = vi.fn()
+
+  render(<Blog blog={blog} handleLike={mockHandlerHandleLike} removeBlog={mockHandlerHandleRemove} showRemove={true}/>)
+
+  const user = userEvent.setup()
+  const showButton = screen.getByText('show')
+  await user.click(showButton)
+
+  const removeButton = screen.getByText('remove')
+  await user.click(removeButton)
+
+  expect(mockHandlerHandleRemove.mock.calls).toHaveLength(1)
+
+})
+
 test('new blog form click create', async () => {
   const blog = {
     title: 'This blog should render',
@@ -88,5 +112,4 @@ test('new blog form click create', async () => {
   expect(mockHandlerCreateBlog.mock.calls[0][0].title).toBe('This blog should render')
   expect(mockHandlerCreateBlog.mock.calls[0][0].author).toBe('me')
   expect(mockHandlerCreateBlog.mock.calls[0][0].url).toBe('me.com/blog')
-  
 })

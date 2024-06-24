@@ -95,6 +95,7 @@ const App = () => {
       <div>
         username
         <input
+          id="username"
           type="text"
           value={username}
           name="Username"
@@ -104,13 +105,14 @@ const App = () => {
       <div>
         password
         <input
+          id="password"
           type="password"
           value={password}
           name="Password"
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
-      <button type="submit">login</button>
+      <button id="login-button" type="submit">login</button>
     </form>
   )
 
@@ -196,7 +198,7 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       <Notification message={notificationMessage} notificationType={notificationType}/>
-      <p>{user.name} logged in</p> <form onSubmit={handleLogout}><button type="submit">logout</button></form>
+      <p>{user.name} logged in</p> <form onSubmit={handleLogout}><button id="logout" type="submit">logout</button></form>
 
       <Togglable buttonLabel='new blog' cancelLabel='cancel' ref={blogFormRef}>
         <BlogForm createBlog={addBlog} />
